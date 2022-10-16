@@ -1,0 +1,17 @@
+{
+    "name": "StockView",
+    "rootNamespace": "",
+    "references": [
+        "GUID:13a6fdc14ca9df84eb8019bc66fa9e5d",
+        "GUID:e54e37022415251459ee7db8e7f55000"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
