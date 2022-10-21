@@ -5,7 +5,7 @@ using StocksGame.StockSource.Runtime;
 using UnityEngine;
 using Draw = Shapes.Draw;
 
-namespace StocksGame.StockView.Runtime
+namespace StocksGame.Runtime
 {
     // TODO: A way to inject the drawing implementation, could be shapes, could be gameobjects etc
     public class StockView : ImmediateModeShapeDrawer
@@ -26,14 +26,19 @@ namespace StocksGame.StockView.Runtime
 
         public override void DrawShapes(Camera cam)
         {
-            foreach (var stockPoint in _normalizedStockData)
+            
+            using (Draw.Command(cam))
             {
-                DrawStockPoint(stockPoint);
+                int index = 0;
+                foreach (var stockPoint in _normalizedStockData)
+                {
+                    DrawStockPoint(index,stockPoint);
+                    ++index;
+                }
             }
-            base.DrawShapes(cam);
         }
 
-        private void DrawStockPoint(float stockPoint)
+        private void DrawStockPoint(int index, float stockPoint)
         {
             Draw.DiscGeometry   = DiscGeometry.Flat2D;
             Draw.ThicknessSpace = ThicknessSpace.Pixels;
@@ -41,7 +46,7 @@ namespace StocksGame.StockView.Runtime
             
             Draw.Matrix = transform.localToWorldMatrix;
 
-            Draw.Disc(new Vector3(0,stockPoint,0),.2F,Color.white);
+            Draw.Disc(new Vector3(index*.1f,stockPoint,0),.05f,Color.white);
         }
 
         private List<float> GetNormalizedStockValues(List<Stock> stocks)
@@ -49,7 +54,7 @@ namespace StocksGame.StockView.Runtime
             float minVal = stocks.Min(stock => stock.Close);
             float maxVal = stocks.Max(stock => stock.Close);
             float range  = maxVal - minVal;
-            var normalized = stocks.Select( i => 100 * (i.Close - minVal) /range)
+            var normalized = stocks.Select( i => (i.Close - minVal) /range)
                 .ToList();
             return normalized;
         }

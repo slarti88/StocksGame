@@ -1,11 +1,10 @@
 {
-    "name": "StockViewTests",
+    "name": "Stocks Tests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "StockView",
-        "StockSource",
+        "Stocks Runtime",
         "ShapesRuntime"
     ],
     "includePlatforms": [],
