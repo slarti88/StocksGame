@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using StocksGame.Runtime;
@@ -11,7 +12,7 @@ public class Runner : MonoBehaviour
     {
         string      stockSourceData = Resources.Load<TextAsset>("adaniports").text;
         StockSource stockSource     = new StockSource();
-        stockSource.Load(stockSourceData);
+        stockSource.Load(stockSourceData,new DateTime(2010,10,10),new DateTime(2010,11,10));
         
         // Act
         StockView stockView = new GameObject("View").AddComponent<StockView>();

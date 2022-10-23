@@ -31,9 +31,7 @@ namespace StocksGame.StockView.Tests
             stockView.Show(stockSource);
             
             // TODO: A way to assert that things were drawn
-            // Assert
             
-            // Assert.AreNotEqual(0,stockView.transform.childCount);
             
             yield return null;
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -22,6 +23,16 @@ namespace StocksGame.StockSource.Runtime
         public void Load(string sourceText)
         {
             _stocks = JsonConvert.DeserializeObject<List<Stock>>(sourceText);
+        }
+        
+        public void Load(string sourceText, DateTime from, DateTime to)
+        {
+            _stocks = JsonConvert.DeserializeObject<List<Stock>>(sourceText);
+            _stocks = _stocks.Where(stock =>
+            {
+                var dateTime = DateTime.Parse(stock.Date);
+                return (dateTime > from && dateTime < to);
+            }).ToList();
         }
     }
 
