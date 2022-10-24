@@ -38,6 +38,8 @@ namespace StocksGame.Runtime
                     // }
                     ++index;
                 }
+                
+                SDDraw.Line(new Vector3(0,.2f,0),new Vector3(0,.8f,0));
             }
         }
 

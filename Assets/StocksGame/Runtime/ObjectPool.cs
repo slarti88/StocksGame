@@ -23,6 +23,7 @@ namespace StocksGame.Runtime
     internal static class SDMaterials
     {
         public static readonly Material Circle = new Material(Shader.Find("SD/SDCircle"));
+        public static readonly Material Line = new Material(Shader.Find("SD/SDLine"));
     }
     
     internal static class SDMesh
