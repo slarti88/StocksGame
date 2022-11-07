@@ -15,7 +15,8 @@ namespace StocksGame.Runtime
         public static void Line(Vector3 start, Vector3 end)
         {
             Material  mat    = SDMaterials.Line;
-            Matrix4x4 matrix = Matrix4x4.TRS((start + end)*.5f,Quaternion.identity,Vector3.one *.2f);
+            Matrix4x4 matrix = Matrix4x4.TRS((start + end)*.5f,Quaternion.FromToRotation(Vector3.up,end-start),
+                                            (end-start).magnitude*Vector3.one);
             Graphics.DrawMesh(SDMesh.QuadMesh,matrix,mat,LayerMask.NameToLayer("Default"));
         }
     }
