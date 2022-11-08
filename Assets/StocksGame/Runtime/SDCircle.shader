@@ -6,11 +6,12 @@ Shader "SD/SDCircle"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" }        
         LOD 100
 
         Pass
         {
+            Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -35,6 +36,12 @@ Shader "SD/SDCircle"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            fixed AACircle(fixed2 uv)
+            {
+                fixed alpha = 1 - smoothstep(.49,.5,length(uv));
+                return alpha;
+            }
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -47,9 +54,12 @@ Shader "SD/SDCircle"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed2 uv = i.uv-fixed2(.5,.5);
-                fixed col = step(length(uv),.5);
+                float dist = length(uv);
+                fixed col = 1 - step(.5,dist);
+                
                 UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
+                fixed alpha = AACircle(uv);
+                return fixed4(col,col,col,alpha);
             }
             ENDCG
         }

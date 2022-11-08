@@ -6,11 +6,12 @@ Shader "SD/SDLine"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" }
         LOD 100
 
         Pass
         {
+            Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -35,6 +36,12 @@ Shader "SD/SDLine"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            fixed AALine(fixed dist)
+            {
+                fixed alpha = 1 - smoothstep(.02,.05,dist);
+                return alpha;
+            }
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -48,13 +55,16 @@ Shader "SD/SDLine"
             {
                 // sample the texture
                 fixed2 uv = i.uv-fixed2(.5,.5);
+                fixed p = clamp(-.4,.4,uv.y);
 
-                fixed p = min(.4,max(-.4,uv.y));
                 fixed2 xy = uv - fixed2(0,p);
-                fixed4 col = step(length(xy),.05);
+                fixed dist = length(xy);
+                fixed4 col = 1 - step(.05,dist);
                 
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
+
+                col.a = AALine(dist);
                 return col;
             }
             ENDCG
