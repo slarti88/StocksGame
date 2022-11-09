@@ -25,7 +25,8 @@ namespace StocksGame.Runtime
         public override void DrawShapes(Camera cam)
         {
             var xPoints = Enumerable.Range(0, _normalizedStockData.Count).Select(i => (float) i).ToList();
-            SDPlot.DrawLineGraph(xPoints,_normalizedStockData);
+            // SDPlot.DrawLineGraph(xPoints,_normalizedStockData);
+            SDPlot.DrawLineGraph(_normalizedStockData);
         }
         
         private List<float> GetNormalizedStockValues(List<Stock> stocks)
@@ -36,11 +37,6 @@ namespace StocksGame.Runtime
             var normalized = stocks.Select( i => (i.Close - minVal) /range)
                 .ToList();
             return normalized;
-        }
-
-        Vector3 GetStockPoint(float x, float y)
-        {
-            return new Vector3(x * .1f, y * 2, 0);
         }
     }
 }
