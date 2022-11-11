@@ -3,7 +3,6 @@ using System.Linq;
 using Shapes;
 using StocksGame.StockSource.Runtime;
 using UnityEngine;
-using Draw = Shapes.Draw;
 
 namespace StocksGame.Runtime
 {
@@ -24,8 +23,8 @@ namespace StocksGame.Runtime
 
         public override void DrawShapes(Camera cam)
         {
-            var xPoints = Enumerable.Range(0, _normalizedStockData.Count).Select(i => (float) i).ToList();
-            // SDPlot.DrawLineGraph(xPoints,_normalizedStockData);
+            float dim = 4;
+            SDPlot.Frame = Rect.MinMaxRect(-dim, -dim, dim, dim);   
             SDPlot.DrawLineGraph(_normalizedStockData);
         }
         

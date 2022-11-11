@@ -8,7 +8,7 @@ namespace StocksGame.Runtime
         public static void Circle(Vector3 pos, float radius)
         {
             Material  mat    = SDMaterials.Circle;
-            Matrix4x4 matrix = Matrix4x4.TRS(pos,Quaternion.identity,Vector3.one*.2f);
+            Matrix4x4 matrix = Matrix4x4.TRS(pos,Quaternion.identity,Vector3.one*radius);
             Graphics.DrawMesh(SDMesh.QuadMesh,matrix,mat,LayerMask.NameToLayer("Default"));
         }
 
