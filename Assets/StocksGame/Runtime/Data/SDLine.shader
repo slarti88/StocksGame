@@ -36,10 +36,12 @@ Shader "SD/SDLine"
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
-            fixed AALine(fixed dist)
+            fixed AALine(float dist, fixed2 uv)
             {
-                fixed alpha = 1 - smoothstep(.02,.05,dist);
-                return alpha;
+                float dist2 = .1 - dist;
+                float2 ddist = float2(ddx(uv.x), ddy(uv.y));                
+                float pixelDist = dist2 / (length(ddist));                
+                return saturate(.5 - pixelDist)*step(0.01,dist);
             }
             
             v2f vert (appdata v)
@@ -54,17 +56,18 @@ Shader "SD/SDLine"
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed2 uv = i.uv-fixed2(.5,.5);
-                fixed p = clamp(-.4,.4,uv.y);
+                float2 uv = i.uv-float2(.5,.5);
+                float p = clamp(-.4,.4,uv.y);
 
-                fixed2 xy = uv - fixed2(0,p);
-                fixed dist = length(xy);
+                float2 xy = uv - float2(0,p);
+                float dist = length(xy);
                 fixed4 col = 1 - step(.05,dist);
                 
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
 
-                col.a = AALine(dist);
+                dist = saturate(1 - dist/.05);
+                col.a = AALine(dist,uv);
                 return col;
             }
             ENDCG

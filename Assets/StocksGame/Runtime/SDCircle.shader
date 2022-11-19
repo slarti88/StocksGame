@@ -38,8 +38,11 @@ Shader "SD/SDCircle"
 
             fixed AACircle(fixed2 uv)
             {
-                fixed alpha = 1 - smoothstep(.49,.5,length(uv));
-                return alpha;
+                float dist = 1 - length(uv)/.5;
+                dist = .45 - dist;
+                float2 ddist = float2(ddx(uv.x), ddy(uv.y));                
+                float pixelDist = dist / length(ddist);                
+                return saturate(.5 - pixelDist);
             }
 
             v2f vert (appdata v)
